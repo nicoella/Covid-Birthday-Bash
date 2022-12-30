@@ -1,0 +1,66 @@
+/* Names: Nicole Han, Tracy Wang, Roseanna Liang
+ * Teacher: Ms. Krasteva
+ * Due Date: June 18, 2020
+ * Class: SplashScreen class
+ * 
+ * This class is the splash screen of the game. It shows whenever the program is first run.
+ * 
+ * Instance Variable Dictionary:
+ * type      |name        |purpose
+ * ----------|------------|-------
+ * Image     |bg          |stores the image file for the background
+ * long      |delay       |stores the delay
+ */
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.*;
+
+public class Splashscreen extends Scene { //MainMenu class
+  private Image bg; //stores the image file for the background
+  private long delay;
+  
+  /* class constructor
+   * 
+   * Purpose:
+   * Reads in all image files, initializes all instance variables.
+   * Creates a mouse listener which has a method mouseClicked which
+   * is called when the mouse is clicked.   
+   */
+  public Splashscreen() {
+    super(); //calls the constructor of the Scene class
+    delay = -1;
+    //imports all images
+    try { //try-catch block catches errors
+      bg = ImageIO.read(new File("data/backgrounds/splashscreen/splashscreen.png")); 
+    } catch (IOException e) {}
+  }
+  
+  /* paintComponent method
+   * 
+   * purpose:
+   * This methods performs the graphics of the game.
+   */
+  public void paintComponent(Graphics g) {
+    Graphics2D g2d = (Graphics2D)g;
+    super.paintComponent(g);
+    //draw the background
+    g2d.drawImage(bg,0,0,null);
+    //start fade out after 1 second
+    if(delay != -1 && System.nanoTime()-delay >= 1500000000L) {
+      setFadeOutCnt(0);
+      delay = -1;
+    }
+    //draw scene transitions
+    if(getFadeInCnt()>0) fadeIn(g2d);
+    else if(getFadeInCnt()<=0 && delay==-1 && getFadeOutCnt()==-1) delay = System.nanoTime();
+    if(getFadeOutCnt()>=0 && getFadeOutCnt()<255) fadeOut(g2d);
+    else if(getFadeOutCnt()!=-1) transition(0,1);
+  }
+  
+  public void actionPerformed(ActionEvent e) {
+    repaint();
+  }
+}

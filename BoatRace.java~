@@ -1,0 +1,136 @@
+/* Names: Nicole Han, Tracy Wang, Roseanna Liang
+ * Teacher: Ms. Krasteva
+ * Due Date: June 18, 2020
+ * Class: BoatRace class
+ * 
+ */
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.*;
+
+public class BoatRace extends Scene {
+  private Image bg;
+  private Image boats[];
+  private Image box;
+  private int[] boatX;
+  private double[] boatSpeed;
+  private long[] boatDelay;
+  private long countdown;
+  private int playerX;
+  private boolean[] finished;
+  private String state;
+  /* class constructor
+   * 
+   * Purpose:
+   * Reads in all image files, initializes all instance variables.
+   * Creates a mouse listener which has a method mouseClicked which
+   * is called when the mouse is clicked.   
+   */
+  public BoatRace() {
+    super(); //calls the constructor of the Scene class
+    boats = new Image[2];
+    reset();
+    try { //try-catch block catches errors
+      bg = ImageIO.read(new File("data/backgrounds/minigames/boat/raceScreen.png")); 
+      for(int i=0; i<2; i++) boats[i] = ImageIO.read(new File("data/backgrounds/minigames/boat/boat"+i+".png"));
+      box = ImageIO.read(new File("data/backgrounds/levels/box.png"));
+    } catch (IOException e) {}
+    //adds a listener which will be called each time the user presses or releases a key
+    addKeyListener(new KeyAdapter() {
+      //prob needs a comment here
+      //sndajfnsjldgnskdj
+      public void keyReleased(KeyEvent e) {
+        if(state.equals("game") && e.getKeyChar()==' ') {
+          if(playerX+5 <= 820) playerX += 5;
+          else if(getFadeOutCnt()==-1) setFadeOutCnt(0);
+        }
+      }
+    });
+  }
+  
+  public void reset() {
+    playerX = 0;
+    boatX = new int[9];
+    boatDelay = new long[9];
+    finished = new boolean[9];
+    state = "instructions";
+    countdown = -1;
+    for(int i=0; i<9; i++) boatDelay[i] = -1;
+    boatSpeed = new double[]{1.5,0.8,1.9,1.1,2.2,1.0,2.1,1.8,1.4};
+  }
+  
+  public int getRank() {
+    int cnt = 1;
+    for(int i=0; i<9; i++) {
+      if(playerX >= 820 && finished[i]) cnt++;
+      else if(playerX <= 820 && boatX[i] >= playerX) cnt++;
+    }
+    return cnt;
+  }
+  
+  /* paintComponent method
+   * 
+   * purpose:
+   * This methods performs the graphics of the game.
+   */
+  public void paintComponent(Graphics g) {
+    Graphics2D g2d = (Graphics2D)g;
+    super.paintComponent(g);
+    //draw the background
+    g2d.drawImage(bg,0,0,null);
+    //draw the boats
+    g2d.drawImage(boats[1],16+playerX,16,null);
+    for(int i=0; i<9; i++) {
+      if(state.equals("game") && playerX < 820 && System.nanoTime()-boatDelay[i] >= boatSpeed[i]*200000000) {
+        boatDelay[i] = System.nanoTime();
+        if(boatX[i]+5 <= 820) boatX[i] += 5;
+        if(boatX[i] > 820) finished[i] = true;
+      }
+      g2d.drawImage(boats[0],16+boatX[i],16+(i+1)*48,null);
+    }
+    if(state.equals("instructions")) {
+      requestFocus();
+      //draw text on text box
+      String str = ".";
+      //String str = "It's origami boat race time! Your boat is the red one at the top. Press SPACE to blow and move your boat forward. Reach the end of the pool to win!";
+      displayText(str,g2d);
+      if(getTextFinished()) {
+        state = "countdown";
+        countdown = System.nanoTime() + 4*1000000000L;
+        clearText();
+      }
+    } else if(state.equals("countdown")) {
+      g2d.setFont(getFont().deriveFont(80.0f));
+      g2d.setColor(Color.WHITE);
+      long seconds = (countdown - System.nanoTime())/1000000000;
+      g2d.drawString(seconds+"",500-g2d.getFontMetrics().stringWidth(seconds+"")/2,280);
+      if(seconds <= 0) state = "game"; 
+    } else if(state.equals("game")) {
+      //draw player's rank
+      g2d.drawImage(box,880,529,null);
+      g2d.setFont(getFont());
+      g2d.setColor(new Color(184,105,113));
+      int rank = getRank(); //1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th
+      String rankStr = rank+"";
+      if(rank==1) rankStr += "st";
+      else if(rank==2) rankStr += "nd";
+      else if(rank==3) rankStr += "rd";
+      else if(rank<=10) rankStr += "th";
+      g.drawString(rankStr,910,564);
+    }
+    //draw scene transitions
+    if(getFadeInCnt()>0) { 
+      fadeIn(g2d); 
+      reset(); 
+    }
+    if(getFadeOutCnt()>=0 && getFadeOutCnt()<255) fadeOut(g2d);
+    else if(getFadeOutCnt()!=-1) transition(4,3);
+  }
+  
+  public void actionPerformed(ActionEvent e) {
+    repaint();
+  }
+}

@@ -1,0 +1,256 @@
+/* Names: Nicole Han, Tracy Wang, Roseanna Liang
+ * Teacher: Ms. Krasteva
+ * Due Date: June 18, 2020
+ * Class: Level class
+ * 
+ * This class is the main social distancing game which all levels include.
+ * 
+ * Instance Variable Dictionary:
+ * type            |name        |purpose
+ * ----------------|------------|-------
+ * Image           |bg          |stores the background image
+ * Image           |box         |stores the image for the timer box
+ * Image[]         |healthbar   |stores the two images for the healthbar
+ * Image           |tables[]    |stores the images for the tables
+ * long            |gameTime    |stores the nanoseconds for the game running time
+ * double          |health      |stores the player's health
+ * boolean         |levelFailed |stores if the player has failed the level
+ */
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.*;
+
+public class Level extends Scene {
+  private Image bg;
+  private Image box;
+  private Image healthbar[];
+  private Image tables[];
+  private Player[] characters;
+  private long delay;
+  private long gameTime;
+  private double health;
+  private boolean levelFailed;
+  
+  /* class constructor
+   * 
+   * Purpose:
+   * Reads in all image files, initializes all instance variables.
+   * Creates a key listener which has a method keyPressed which
+   * is called when a key is pressed.   
+   */
+  public Level() {
+    super(); //calls the constructor of the Scene class
+    //imports all images
+    healthbar = new Image[2];
+    tables = new Image[4];
+    try { //try-catch block catches errors
+      bg = ImageIO.read(new File("data/backgrounds/levels/mainBackground.png")); 
+      box = ImageIO.read(new File("data/backgrounds/levels/box.png"));
+      for(int i=0; i<2; i++) healthbar[i] = ImageIO.read(new File("data/backgrounds/levels/health"+i+".png"));
+      for(int i=0; i<4; i++) tables[i] = ImageIO.read(new File("data/backgrounds/levels/table"+i+".png"));
+    } catch (IOException e) {}
+    reset();
+    //adds a listener which will be called each time the user presses or releases a key
+    addKeyListener(new KeyAdapter() {
+      //keyPressed method is called when the user presses a key
+      public void keyPressed(KeyEvent e) {
+        //if the user is pressing one of the four keys WASD, the character will walk in that direction
+        if(e.getKeyChar()=='d' || e.getKeyChar()=='D') { //walks to the right
+          characters[0].setState("rightWalk");
+        } else if(e.getKeyChar()=='a' || e.getKeyChar()=='A') { //walks to the left
+          characters[0].setState("leftWalk");
+        } else if(e.getKeyChar()=='w' || e.getKeyChar()=='W') { //walks to the back
+          characters[0].setState("backWalk");
+        } else if(e.getKeyChar()=='s' || e.getKeyChar()=='S') { //walks to the front
+          characters[0].setState("frontWalk");
+        } 
+      }
+      //keyReleased method is called when the user releases a key
+      public void keyReleased(KeyEvent e) {
+        //if the user releases one of the four keys WASD, the character will face that direction
+        if(e.getKeyChar()=='d' || e.getKeyChar()=='D') { //faces to the right
+          characters[0].setState("rightStill");
+        } else if(e.getKeyChar()=='a' || e.getKeyChar()=='A') { //faces to the left
+          characters[0].setState("leftStill");
+        } else if(e.getKeyChar()=='w' || e.getKeyChar()=='W') { //faces to the back
+          characters[0].setState("backStill");
+        } else if(e.getKeyChar()=='s' || e.getKeyChar()=='S') { //faces to the front
+          characters[0].setState("frontStill");
+        }
+      }
+    });
+  }
+  
+  /*stopWalking method
+   * 
+   * Purpose:
+   * Makes the main character stop walking.
+   */
+  public void stopWalking() {
+    if(characters[0].getState().equals("rightWalk")) characters[0].setState("rightStill");
+    else if(characters[0].getState().equals("leftWalk")) characters[0].setState("leftStill");
+    else if(characters[0].getState().equals("frontWalk")) characters[0].setState("frontStill");
+    else if(characters[0].getState().equals("backWalk")) characters[0].setState("backStill");
+  }
+  
+  /*reset method
+   * 
+   * Purpose:
+   * resets all the instance variables for the game to begin again
+   */
+  public void reset() {
+    //initializes instance variables
+    delay = System.nanoTime();
+    gameTime = -1;
+    health = 100;
+    levelFailed = false;
+  }
+  
+  /*setCharacters method
+   * 
+   * Purpose:
+   * sets the current characters on the screen
+   */
+  public void setCharacters(Player[] characters) {
+    if(characters.length==1 && characters[0].getX()==-1000) stopWalking();
+    this.characters = characters; 
+  }
+  
+  /*setGameTime method
+   * 
+   * Purpose:
+   * sets the game timer
+   */
+  public void setGameTime(long newGameTime) {
+    gameTime = newGameTime;
+  }
+  
+  /*setGameTime method
+   * 
+   * Purpose:
+   * gets the game timer
+   */
+  public long getGameTime() {
+    return gameTime;
+  }
+  
+  /*getLevelFailed method
+   * 
+   * Purpose:
+   * Gets if the level has been failed.
+   */
+  public boolean getLevelFailed() {
+    return levelFailed;
+  }
+
+  /* paintComponent method
+   * 
+   * purpose:
+   * This methods performs the graphics of the game.
+   */
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D)g;
+    //shift the graphics based on the moving camera
+    int shiftX = characters[0].getX();
+    int shiftY = characters[0].getY();
+    g2d.translate(Math.max(Math.min(shiftX,0),-320), Math.max(Math.min(shiftY,0),-400));
+    //draw the background
+    g2d.drawImage(bg,0,0,null);
+    //set the main character in the middle of the screen
+    int mx = characters[0].getX();
+    int my = characters[0].getY();
+    characters[0].setX(440-shiftX);
+    characters[0].setY(220-shiftY);
+    //draw all characters
+    Player.drawAll(g2d,characters);
+    characters[0].setX(mx);
+    characters[0].setY(my);
+    //update positions all characters every 100000000 nanoseconds (0.1 seconds)
+    if(System.nanoTime()-delay >= 100000000) {
+      delay = System.nanoTime();
+      Player i;
+      int x;
+      int y;
+      int s;
+      //traverse through all characters
+      for(int j=0; j<characters.length; j++) {
+        i = characters[j];
+        x = i.getX();
+        y = i.getY();
+        s = i.getSpeed();
+        if(j==0) s*=-1; //if the character is the main character, all directions are reversed
+        else i.updateDir(true); //update the direction of the NPC characters
+        //if-else statement block to update character positions
+        //only updates if no objects or characters in way
+        //updates direction facing if character is a NPC and an object is in the way
+        if(i.getState().equals("leftWalk")) { //make character walk left
+          if(i.canWalk(x-s,y,characters,j)) i.setX(x-s); 
+          else if(j!=0) i.updateDir(false); 
+        } else if(i.getState().equals("rightWalk")) { //make character walk right
+          if(i.canWalk(x+s,y,characters,j)) i.setX(x+s);
+          else if(j!=0) i.updateDir(false);
+        } else if(i.getState().equals("backWalk")) { //make character walk back
+          if(i.canWalk(x,y-s,characters,j)) i.setY(y-s);
+          else if(j!=0) i.updateDir(false);
+        } else if(i.getState().equals("frontWalk")) { //make character walk forward
+          if(i.canWalk(x,y+s,characters,j)) i.setY(y+s);
+          else if(j!=0) i.updateDir(false);
+        }
+      }
+    }
+    //draw tables
+    g2d.drawImage(tables[0],20,220,null);
+    g2d.drawImage(tables[1],1168,116,null);
+    g2d.drawImage(tables[2],1184,596,null);
+    g2d.drawImage(tables[3],24,528,null);
+    //translate screen back
+    g2d.translate(-(Math.max(Math.min(shiftX,0),-320)), -(Math.max(Math.min(shiftY,0),-400)));
+    //calculate time
+    long timePassed = gameTime-System.nanoTime();
+    long seconds = timePassed/1000000000;
+    long minutes = seconds / 60;
+    seconds %= 60;
+    String secondsStr = seconds+"";
+    if(secondsStr.length()<=1) secondsStr = "0"+secondsStr;
+    String minutesStr = minutes+"";
+    if(minutesStr.length()<=1) minutesStr = "0"+minutesStr;
+    if(gameTime==-1) {
+      minutesStr = "00";
+      secondsStr = "00";
+    }
+    //draw timer
+    g2d.drawImage(box,880,12,null);
+    g2d.setFont(getFont().deriveFont(50.0f));
+    g2d.setColor(new Color(184,105,113));
+    g2d.drawString(minutesStr+":"+secondsStr,900,48);
+    //draw healthbar
+    g2d.drawImage(healthbar[0],956,80,null);
+    g2d.setColor(new Color(209,151,157));
+    int h = (int)(240*(health/100.0));
+    g2d.fillRect(960,84+240-h,24,h);
+    g2d.drawImage(healthbar[1],956,80,null);
+    //calculate health
+    for(int i=1; i<characters.length; i++) {
+      if(characters[0].tooClose(characters[i])) {
+        health -= 0.1;
+        break;
+      }
+    }
+    //check if health is too low
+    if(health <= 0) levelFailed = true;
+  }
+  
+  /*actionPerformed method
+   * 
+   * Purpose:
+   * repeats the paintComponent method
+   */
+  public void actionPerformed(ActionEvent e) {
+    repaint();
+  }
+}

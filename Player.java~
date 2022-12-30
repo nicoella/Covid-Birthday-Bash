@@ -1,0 +1,199 @@
+/* Names: Nicole Han, Tracy Wang, Roseanna Liang
+ * Teacher: Ms. Krasteva
+ * Due Date: June 18, 2020
+ * Class:Player class
+ * 
+ * This class represents all the characters. 
+ */
+
+import java.awt.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.*;
+
+public class Player {
+  private String name;
+  private Image[] left;
+  private Image[] right;
+  private Image[] front;
+  private Image[] back;
+  private String state;
+  private int walkCnt;
+  private long delay;
+  private long dirDelay;
+  private int x;
+  private int y;
+  private int walkSpeed;
+  
+  public Player(String name, int x, int y) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    left = new Image[4];
+    right = new Image[4];
+    front = new Image[4];
+    back = new Image[4];
+    walkCnt = 0;
+    state = "frontStill";
+    delay = System.nanoTime();
+    dirDelay = System.nanoTime();
+    walkSpeed = 15;
+    try {
+      for(int i=0; i<4; i++) {
+        left[i] = ImageIO.read(new File("data/characters/"+name+"/left"+i+".png")); 
+        right[i] = ImageIO.read(new File("data/characters/"+name+"/right"+i+".png"));
+        front[i] = ImageIO.read(new File("data/characters/"+name+"/front"+i+".png")); 
+        back[i] = ImageIO.read(new File("data/characters/"+name+"/back"+i+".png"));  
+      }
+    } catch (IOException e) {
+    System.out.println(e.getMessage());
+    }
+  }
+  
+  public void setState(String state) {
+    this.state = state;
+  }
+  
+  public String getState() {
+    return state;
+  }
+  
+  public boolean canWalk(int newX, int newY, Player[] characters, int k) {
+    if(k==0) {
+      newX = (-1)*(newX-443);
+      newY = (-1)*(newY-220);
+    }
+    int[] obsx1 = {0,0,1296,0,340,0,776,1256,0,0,1168,1184};
+    int[] obsy1 = {0,0,0,976,0,0,0,0,264,620,292,640};
+    int[] obsx2 = {23,1320,1320,1320,559,67,1011,1320,135,131,1300,1300};
+    int[] obsy2 = {1000,183,1000,1000,303,239,303,239,535,983,535,887};
+    for(int i=0; i<obsx1.length; i++) {
+      if(((newX+105 >= obsx1[i] && newX+105 <= obsx2[i]) || (newX+5 >= obsx1[i] && newX+5 <= obsx2[i])) &&  (newY+160 >= obsy1[i] && newY+160 <= obsy2[i])) {
+        return false;
+      }
+    }
+    for(int j=0; j<characters.length; j++) {
+      if(j==k) continue;
+      Player i = characters[j];
+      int x = i.getX();
+      int y = i.getY();
+      if(j==0) {
+        x = (-1)*(x-443);
+        y = (-1)*(y-220);
+      }
+      if((newX+100 >= x+15 && newX+100 <= x+100 && newY+160 >= y+130 && newY+160 <= y+180) || (newX+15 >= x+15 && newX+15 <= x+100 && newY+160 >= y+130 && newY+160 <= y+180)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public void setX(int x) {
+    this.x = x;
+  }
+  
+  public int getX() {
+    return x;
+  }
+  
+  public void setY(int y) {
+    this.y = y;
+  }
+  
+  public int getY() {
+    return y;
+  }
+  
+  public int getSpeed() {
+    return walkSpeed;
+  }
+  
+  public boolean updateWalk() {
+    if((System.nanoTime()-delay)>200000000) {
+      delay = System.nanoTime();
+      return true;
+    }
+    return false;
+  }
+  
+  public void updateDir(boolean noDelay) {
+    String[] states = {"leftStill","leftWalk","rightStill","rightWalk","frontStill","frontWalk","backStill","backWalk"};
+    if(!noDelay || (System.nanoTime()-dirDelay)>3000000000L) {
+      int rand = (int)(Math.random()*3);
+      if(rand==0) {
+        dirDelay = System.nanoTime();
+        rand = (int)(Math.random()*states.length);
+        state = states[rand];
+      }
+    }
+  }
+  
+  public void drawPlayer(Graphics2D g2d) {
+    if(state.equals("leftStill")) {
+      walkCnt=0;
+      g2d.drawImage(left[0],x,y,null);
+    } else if(state.equals("leftWalk")) {
+      if(updateWalk()) { 
+        walkCnt++;
+        walkCnt%=4;
+      }
+      g2d.drawImage(left[walkCnt],x,y,null);
+    } else if(state.equals("rightStill")) {
+      walkCnt=0;
+      g2d.drawImage(right[0],x,y,null);
+    } else if(state.equals("rightWalk")) {
+      if(updateWalk()) { 
+        walkCnt++;
+        walkCnt%=4;
+      }
+      g2d.drawImage(right[walkCnt],x,y,null);
+    } else if(state.equals("frontStill")) {
+      walkCnt=0;
+      g2d.drawImage(front[0],x,y,null);
+    } else if(state.equals("frontWalk")) {
+      if(updateWalk()) { 
+        walkCnt++;
+        walkCnt%=4;
+      }
+      g2d.drawImage(front[walkCnt],x,y,null);
+    } else if(state.equals("backStill")) {
+      walkCnt=0;
+      g2d.drawImage(back[0],x,y,null);
+    } else if(state.equals("backWalk")) {
+      if(updateWalk()) { 
+        walkCnt++;
+        walkCnt%=4;
+      }
+      g2d.drawImage(back[walkCnt],x,y,null);
+    } 
+  }
+  
+  public boolean tooClose(Player other) {
+    int x1 = x + 60;
+    int y1 = y + 90;
+    if(x<=0) {
+      x1 = (-1)*(x-443) + 60;
+      y1 = (-1)*(y-220) + 90;
+    }
+    int x2 = other.getX() + 60;
+    int y2 = other.getY() + 90;
+    double dist = Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2));
+    if(dist <= 200) return true;
+    return false;
+  }
+  
+  public static void drawAll(Graphics2D g2d, Player[] characters) {
+    Player[] temp = characters.clone();
+    Arrays.sort(temp, new Compare());
+    for(int i=0; i<temp.length; i++) {
+      Player j = temp[i];
+      j.drawPlayer(g2d);
+    }
+  }
+  
+  static class Compare implements Comparator<Player> {
+    public int compare(Player a, Player b) {
+      return a.y - b.y;
+    }
+  }
+}
