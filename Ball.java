@@ -1,23 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Ball class
- * 
- * This class is the basketball that is used during the basketball minigame.
- * 
- * Instance Variable Dictionary:
- * type      |name        |purpose
- * ----------|------------|-------
- * String    |direction   |stores the direction of the ball
- * int       |x           |stores the x coordinate
- * int       |y           |stores the y coordinate
- * String    |state       |stores the state of the ball (such as "forward")
- * int       |spin        |stores which spin stage the ball is in
- * long[]    |delay       |stores the delay
- * int       |size        |stores the size of the ball
- * int       |opacity     |stores the opacity of the ball
- */
-
 public class Ball {
   private String direction; 
   private int x;  

@@ -1,26 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Basketball class
- * 
- * This class is the basketball game class.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image[]         |ball        |stores all the ball images
- * Image           |bar         |stores the image of the bar
- * Image           |net         |stores the net image
- * int             |barY        |stores the current location of the bar
- * boolean         |barUp       |whether or not the bar is up
- * long            |countdown   |the countdown in nanoseconds
- * String          |state       |the state of the game
- * ArrayList<Ball> |balls       |the balls in the game
- * long            |delay       |stores the delay
- * long            |gameTime    |stores the game time
- * int             |score       |stores the score
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

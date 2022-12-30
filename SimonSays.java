@@ -1,24 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Basketball class
- * 
- * This class is the simon-says game class.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image           |box         |stores the background for timer and # of games won 
- * Image           |simonBox    |stores the textbox for what Simon/simun says
- * long            |timer       |stores the amount of time players have to click the correct buttons
- * long            |countdown   |stores the length of the countdown before game starts
- * int             |gamesWon    |stores how many games the user has won
- * boolean         |simonPrefix |stores whether or not to add "Simon says" or "Simun says" to the beginning of simonStr
- * char            |currButton  |stores character of button simon or simun says should be pressed (A,B,C, or D - e.g. "Simon says press B", "Press D")
- * String          |simonStr    |stores what simon/simun says ("Simon/simon says press A/B/C/D")
- * String          |state       |current state of game - instructions, countdown, game, etc
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

@@ -1,16 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: SplashScreen class
- * 
- * This class is the splash screen of the game. It shows whenever the program is first run.
- * 
- * Instance Variable Dictionary:
- * type      |name        |purpose
- * ----------|------------|-------
- * Image     |bg          |stores the image file for the background
- * long      |delay       |stores the delay
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

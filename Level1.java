@@ -1,18 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Level1 class
- * 
- * This class is the level 1 of the game.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * String          |state       |stores the current state of the level
- * Player[]        |characters  |stores the different characters (npcs and player)
- * boolean[]       |keyPressed  |stores if a key (WASD) was pressed
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

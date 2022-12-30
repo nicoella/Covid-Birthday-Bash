@@ -1,22 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Level class
- * 
- * This class is the main social distancing game which all levels include.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image           |box         |stores the image for the timer box
- * Image[]         |healthbar   |stores the two images for the healthbar
- * Image           |tables[]    |stores the images for the tables
- * long            |gameTime    |stores the nanoseconds for the game running time
- * double          |health      |stores the player's health
- * boolean         |levelFailed |stores if the player has failed the level
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

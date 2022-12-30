@@ -1,32 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: Scene class
- * 
- * This is the Scene class of the game. It extends JPanel,
- * and implements ActionListener. All scenes in the game will
- * extend this class.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * int             |maxLevel    |maximum level allowed
- * int             |currLevel   |current level played in
- * Timer           |tm          |used for animation
- * int             |fadeInCnt   |used to fade in a scene
- * int             |fadeOutCnt  |used to fade out a scene
- * boolean         |run         |stores if the scene is running or not
- * ArrayList       |arr         |stores the list of all scenes
- * JFrame          |f           |stores the frame all graphics are displayed on
- * String[]        |text        |stores the text being displayed on the textbox
- * int             |textIndx    |stores the current index in the text string being displayed
- * int             |textLenCnt  |stores the index in the text array which the current text is being saved to
- * long            |textDelay   |used to delay the animation of text
- * boolean         |textFinished|stores if the text has finished animating or not
- * Image           |textBox     |image of the text box to display text on
- * Font            |font        |stores the game font
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

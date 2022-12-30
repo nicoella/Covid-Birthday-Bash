@@ -1,34 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: WhackAMole class
- * 
- * Creates the Whack a Mole minigame
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image           |front       |front part of background
- * Image           |middle      |middle part of background
- * Image           |back        |back part of background
- * Image           |box         |stores the background for timer and score
- * Image[]         |moles       |moles images
- * long            |countdown   |countdown between rules and game
- * long            |timer       |timer of game in nanoseconds
- * long            |temp        |temporarily holds the count for how long mole has been up
- * int             |num         |the mole that is up
- * boolean[]       |isUp        |whether or not the mole is up
- * boolean         |clicked     |if the user has clicked on the mole
- * int[][]         |locX        |the x location of the moles
- * int[]           |centerX     |the location of the center of the moles' heads. X position
- * int[]           |centerY     |the location of the center of the moles' heads, Y position
- * int             |score       |number of moles hit
- * int             |upY         |y coordinate of mole that is up
- * int             |mouseX      |mouse X coordinate  
- * int             |mouseY      |mouse Y coordinate
- * String          |state       |current state of game - instructions, countdown, game, etc
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

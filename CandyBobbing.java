@@ -1,26 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: CandyBobbing class
- *
- * This is the candy bobbing game class.
- *
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image           |box         |stores the box to display the timer
- * Image           |water       |stores the image of the water
- * Image[]         |candies     |stores the images of the candies
- * Point[]         |candiesPos  |stores the center coordinates of the candies
- * boolean[]       |candiesFound|stores which candies have been found
- * long            |countdown   |stores the nanotime for the countdown
- * long            |timer       |stores the nanotime for the game timer
- * int             |numFound    |stores which candies have been found
- * String          |state       |stores the current state of the game
- * boolean         |hasReset    |stores if the game board has been reset at the beginning of the game or not
- *
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

@@ -1,27 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class:Player class
- * 
- * This class is where the characters are made from.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * String          |name        |stores the name of the character
- * Image[]         |left        |stores the frames for the left view of the character
- * Image[]         |right       |stores the frames for the right view of the character
- * Image[]         |front       |stores the frames for the front view of the character
- * Image[]         |back        |stores the frames for the back view of the character
- * String          |state       |stores the current state of the character
- * int             |walkCnt     |stores the walk frame count of the character
- * long            |delay       |stores the delay for the walk of the character
- * long            |dirDelay    |stores the delay for the direction change of the character
- * int             |x           |stores the x-coordinate of the character
- * int             |y           |stores the y-coordinate of the character
- * int             |walkSpeed   |stores how fast the character walks
- */
-
 import java.awt.*;
 import javax.imageio.*;
 import java.io.*;

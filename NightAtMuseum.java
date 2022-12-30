@@ -1,33 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: NightAtMuseum class
- * 
- * This class is the Night at the Museuem minigame.
- * 
- * Instance Variable Dictionary:
- * type      |name        |purpose
- * ----------|------------|-------]
- * Image     |bg          |stores the image file for the background
- * Image     |police1     |stores the front of the police
- * Image     |polie2      |stores the left of the police
- * Image     |police0     |stores the right if the police
- * String    |state       |the state of the game
- * long      |delay       |stores the delay
- * long      |countdown   |stores the countdown
- * boolean   |moving      |whether or not the player is moving
- * boolean[] |charMove    |whether or not the characters are moving
- * boolean[] |charFinish  |whether or not the character is finished
- * boolean   |finished    |whether or not the player is finished
- * int       |playerX     |the player position
- * int[]     |charX       |the character positions
- * int[]     |chances     |the chance of the character stopping
- * boolean   |done        |whether or not the chances have been calculated
- * Player    |main        |the main character
- * Player[]  |otherChar   |the other characters
- * Image     |box         |stores the image of the rank box
- * 
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

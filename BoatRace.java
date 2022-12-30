@@ -1,25 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: BoatRace class
- * 
- * This is the boat race game class.
- * 
- * Instance Variable Dictionary:
- * type            |name        |purpose
- * ----------------|------------|-------
- * Image           |bg          |stores the background image
- * Image[]         |boats       |stores all the boat images
- * Image           |box         |stores the image of the rank box
- * int[]           |boatX       |stores the x-position of the different boats
- * double[]        |boatSpeed   |stores the speed of the non-player-character boats
- * long[]          |boatDelay   |stores the delay for movement of the non-player-character boats
- * long            |countdown   |stores the nanotime for the 3 second countdown
- * int             |playerX     |stores the x-position of the player's boat
- * boolean[]       |finished    |stores if a boat has finished the race or not
- * String          |state       |stores the current state of the minigame
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

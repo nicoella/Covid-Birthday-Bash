@@ -1,15 +1,3 @@
-/* Names: Nicole Han, Tracy Wang, Roseanna Liang
- * Teacher: Ms. Krasteva
- * Due Date: June 18, 2020
- * Class: EndScreen class
- * 
- * This class is the end screen of the game. This is where the player exits
- * 
- * Instance Variable Dictionary:
- * type      |name        |purpose
- * ----------|------------|-------
- * Image     |bg          |stores the image file for the background
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
