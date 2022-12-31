@@ -1,4 +1,4 @@
-# Covid-Birthday-Bash
+# Covid Birthday Bash
 An interactive video game about staying safe during the pandemic at a birthday party.
 
 ## Usage
