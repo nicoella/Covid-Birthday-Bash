@@ -6,13 +6,13 @@ Requires Java to run.
 
 Clone the repository:
 ```
-git clone https://github.com/nicoella/Covid-Birthday-Bash
-cd Covid-Birthday-Bash
+$ git clone https://github.com/nicoella/Covid-Birthday-Bash
+$ cd Covid-Birthday-Bash
 ```
 
 Run the `Main.java` file:
 ```
-java Main.java
+$ java Main.java
 ```
 
 ### Authors
